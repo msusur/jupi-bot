@@ -232,5 +232,8 @@ _Pvt_Extensions
 # Paket dependency manager
 .paket/paket.exe
 
+#My configuration
+web.appsettings.config
+
 # FAKE - F# Make
 .fake/

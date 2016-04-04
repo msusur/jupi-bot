@@ -5,8 +5,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Utilities;
+using MyApp.Bot;
 using Newtonsoft.Json;
 
 namespace MyApp
@@ -22,16 +24,9 @@ namespace MyApp
         {
             if (message.Type == "Message")
             {
-                // calculate something for us to return
-                int length = (message.Text ?? string.Empty).Length;
-
-                // return our reply to the user
-                return message.CreateReplyMessage($"You sent {length} characters");
+                return await Conversation.SendAsync(message, () => new SozlukQuery(BuildForm));
             }
-            else
-            {
-                return HandleSystemMessage(message);
-            }
+            return HandleSystemMessage(message);
         }
 
         private Message HandleSystemMessage(Message message)
@@ -44,7 +39,7 @@ namespace MyApp
             }
             else if (message.Type == "DeleteUserData")
             {
-                // Implement user deletion here
+                // Implement user deletion
                 // If we handle user deletion, return a real message
             }
             else if (message.Type == "BotAddedToConversation")
